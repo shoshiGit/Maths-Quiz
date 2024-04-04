@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Multiple_Choice_A">
+    <Key>
+      <PropertyRef Name="Answer_Id" />
+    </Key>
+    <Property Name="Answer_Id" Type="Int32" Nullable="false" />
+    <Property Name="Answer" Type="Int32" />
+    <Property Name="Question_Id" Type="Int32" />
+    <Property Name="Percent" Type="Int32" />
+    <NavigationProperty Name="Multiple_Choice_Q" Relationship="Self.FK_Answers_Tbl_Multiple_Choice_Q" FromRole="Multiple_Choice_A" ToRole="Multiple_Choice_Q" />
+  </EntityType>
+  <EntityType Name="Multiple_Choice_Q">
+    <Key>
+      <PropertyRef Name="Question_Id" />
+    </Key>
+    <Property Name="Question_Id" Type="Int32" Nullable="false" />
+    <Property Name="Question" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Correct_Ans" Type="Int32" />
+    <Property Name="Percent" Type="Int32" />
+    <NavigationProperty Name="Multiple_Choice_A" Relationship="Self.FK_Answers_Tbl_Multiple_Choice_Q" FromRole="Multiple_Choice_Q" ToRole="Multiple_Choice_A" />
+  </EntityType>
+  <EntityType Name="Question_Ans1">
+    <Key>
+      <PropertyRef Name="Question_Id" />
+    </Key>
+    <Property Name="Question_Id" Type="Int32" Nullable="false" />
+    <Property Name="Question" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Answer" Type="Int32" />
+    <Property Name="Percentage" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Students">
+    <Key>
+      <PropertyRef Name="Student_Id" />
+    </Key>
+    <Property Name="Student_Id" Type="Int32" Nullable="false" />
+    <Property Name="Student_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="FK_Answers_Tbl_Multiple_Choice_Q">
+    <End Role="Multiple_Choice_Q" Type="Self.Multiple_Choice_Q" Multiplicity="0..1" />
+    <End Role="Multiple_Choice_A" Type="Self.Multiple_Choice_A" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Multiple_Choice_Q">
+        <PropertyRef Name="Question_Id" />
+      </Principal>
+      <Dependent Role="Multiple_Choice_A">
+        <PropertyRef Name="Question_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Entities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Multiple_Choice_A" EntityType="Self.Multiple_Choice_A" />
+    <EntitySet Name="Multiple_Choice_Q" EntityType="Self.Multiple_Choice_Q" />
+    <EntitySet Name="Question_Ans1" EntityType="Self.Question_Ans1" />
+    <EntitySet Name="Students" EntityType="Self.Students" />
+    <AssociationSet Name="FK_Answers_Tbl_Multiple_Choice_Q" Association="Self.FK_Answers_Tbl_Multiple_Choice_Q">
+      <End Role="Multiple_Choice_Q" EntitySet="Multiple_Choice_Q" />
+      <End Role="Multiple_Choice_A" EntitySet="Multiple_Choice_A" />
+    </AssociationSet>
+    <EntitySet Name="MyHistory" EntityType="Model.MyHistory" />
+  </EntityContainer>
+  <EntityType Name="MyHistory">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="TestDate" Type="DateTime" Precision="3" />
+    <Property Name="Mark" Type="Int32" />
+  </EntityType>
+</Schema>

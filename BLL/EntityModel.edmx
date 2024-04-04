@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Multiple_Choice_A">
+          <Key>
+            <PropertyRef Name="Answer_Id" />
+          </Key>
+          <Property Name="Answer_Id" Type="int" Nullable="false" />
+          <Property Name="Answer" Type="int" />
+          <Property Name="Question_Id" Type="int" />
+          <Property Name="Percent" Type="int" />
+        </EntityType>
+        <EntityType Name="Multiple_Choice_Q">
+          <Key>
+            <PropertyRef Name="Question_Id" />
+          </Key>
+          <Property Name="Question_Id" Type="int" Nullable="false" />
+          <Property Name="Question" Type="varchar" MaxLength="50" />
+          <Property Name="Correct_Ans" Type="int" />
+          <Property Name="Percent" Type="int" />
+        </EntityType>
+        <EntityType Name="MyHistory">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="TestDate" Type="datetime" />
+          <Property Name="Mark" Type="int" />
+        </EntityType>
+        <EntityType Name="Question&amp;Ans1">
+          <Key>
+            <PropertyRef Name="Question_Id" />
+          </Key>
+          <Property Name="Question_Id" Type="int" Nullable="false" />
+          <Property Name="Question" Type="varchar" MaxLength="50" />
+          <Property Name="Answer" Type="int" />
+          <Property Name="Percentage" Type="int" />
+        </EntityType>
+        <EntityType Name="Students">
+          <Key>
+            <PropertyRef Name="Student_Id" />
+          </Key>
+          <Property Name="Student_Id" Type="int" Nullable="false" />
+          <Property Name="Student_name" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Answers_Tbl_Multiple_Choice_Q">
+          <End Role="Multiple_Choice_Q" Type="Self.Multiple_Choice_Q" Multiplicity="0..1" />
+          <End Role="Multiple_Choice_A" Type="Self.Multiple_Choice_A" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Multiple_Choice_Q">
+              <PropertyRef Name="Question_Id" />
+            </Principal>
+            <Dependent Role="Multiple_Choice_A">
+              <PropertyRef Name="Question_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="Multiple_Choice_A" EntityType="Self.Multiple_Choice_A" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Multiple_Choice_Q" EntityType="Self.Multiple_Choice_Q" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MyHistory" EntityType="Self.MyHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Question&amp;Ans1" EntityType="Self.Question&amp;Ans1" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Students" EntityType="Self.Students" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Answers_Tbl_Multiple_Choice_Q" Association="Self.FK_Answers_Tbl_Multiple_Choice_Q">
+            <End Role="Multiple_Choice_Q" EntitySet="Multiple_Choice_Q" />
+            <End Role="Multiple_Choice_A" EntitySet="Multiple_Choice_A" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Multiple_Choice_A">
+          <Key>
+            <PropertyRef Name="Answer_Id" />
+          </Key>
+          <Property Name="Answer_Id" Type="Int32" Nullable="false" />
+          <Property Name="Answer" Type="Int32" />
+          <Property Name="Question_Id" Type="Int32" />
+          <Property Name="Percent" Type="Int32" />
+          <NavigationProperty Name="Multiple_Choice_Q" Relationship="Self.FK_Answers_Tbl_Multiple_Choice_Q" FromRole="Multiple_Choice_A" ToRole="Multiple_Choice_Q" />
+        </EntityType>
+        <EntityType Name="Multiple_Choice_Q">
+          <Key>
+            <PropertyRef Name="Question_Id" />
+          </Key>
+          <Property Name="Question_Id" Type="Int32" Nullable="false" />
+          <Property Name="Question" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Correct_Ans" Type="Int32" />
+          <Property Name="Percent" Type="Int32" />
+          <NavigationProperty Name="Multiple_Choice_A" Relationship="Self.FK_Answers_Tbl_Multiple_Choice_Q" FromRole="Multiple_Choice_Q" ToRole="Multiple_Choice_A" />
+        </EntityType>
+        <EntityType Name="Question_Ans1">
+          <Key>
+            <PropertyRef Name="Question_Id" />
+          </Key>
+          <Property Name="Question_Id" Type="Int32" Nullable="false" />
+          <Property Name="Question" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Answer" Type="Int32" />
+          <Property Name="Percentage" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Students">
+          <Key>
+            <PropertyRef Name="Student_Id" />
+          </Key>
+          <Property Name="Student_Id" Type="Int32" Nullable="false" />
+          <Property Name="Student_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_Answers_Tbl_Multiple_Choice_Q">
+          <End Role="Multiple_Choice_Q" Type="Self.Multiple_Choice_Q" Multiplicity="0..1" />
+          <End Role="Multiple_Choice_A" Type="Self.Multiple_Choice_A" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Multiple_Choice_Q">
+              <PropertyRef Name="Question_Id" />
+            </Principal>
+            <Dependent Role="Multiple_Choice_A">
+              <PropertyRef Name="Question_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Multiple_Choice_A" EntityType="Self.Multiple_Choice_A" />
+          <EntitySet Name="Multiple_Choice_Q" EntityType="Self.Multiple_Choice_Q" />
+          <EntitySet Name="Question_Ans1" EntityType="Self.Question_Ans1" />
+          <EntitySet Name="Students" EntityType="Self.Students" />
+          <AssociationSet Name="FK_Answers_Tbl_Multiple_Choice_Q" Association="Self.FK_Answers_Tbl_Multiple_Choice_Q">
+            <End Role="Multiple_Choice_Q" EntitySet="Multiple_Choice_Q" />
+            <End Role="Multiple_Choice_A" EntitySet="Multiple_Choice_A" />
+          </AssociationSet>
+          <EntitySet Name="MyHistory" EntityType="Model.MyHistory" />
+        </EntityContainer>
+        <EntityType Name="MyHistory">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="TestDate" Type="DateTime" Precision="3" />
+          <Property Name="Mark" Type="Int32" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities1">
+          <EntitySetMapping Name="Multiple_Choice_A">
+            <EntityTypeMapping TypeName="Model.Multiple_Choice_A">
+              <MappingFragment StoreEntitySet="Multiple_Choice_A">
+                <ScalarProperty Name="Answer_Id" ColumnName="Answer_Id" />
+                <ScalarProperty Name="Answer" ColumnName="Answer" />
+                <ScalarProperty Name="Question_Id" ColumnName="Question_Id" />
+                <ScalarProperty Name="Percent" ColumnName="Percent" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Multiple_Choice_Q">
+            <EntityTypeMapping TypeName="Model.Multiple_Choice_Q">
+              <MappingFragment StoreEntitySet="Multiple_Choice_Q">
+                <ScalarProperty Name="Question_Id" ColumnName="Question_Id" />
+                <ScalarProperty Name="Question" ColumnName="Question" />
+                <ScalarProperty Name="Correct_Ans" ColumnName="Correct_Ans" />
+                <ScalarProperty Name="Percent" ColumnName="Percent" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Question_Ans1">
+            <EntityTypeMapping TypeName="Model.Question_Ans1">
+              <MappingFragment StoreEntitySet="Question&amp;Ans1">
+                <ScalarProperty Name="Question_Id" ColumnName="Question_Id" />
+                <ScalarProperty Name="Question" ColumnName="Question" />
+                <ScalarProperty Name="Answer" ColumnName="Answer" />
+                <ScalarProperty Name="Percentage" ColumnName="Percentage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Students">
+            <EntityTypeMapping TypeName="Model.Students">
+              <MappingFragment StoreEntitySet="Students">
+                <ScalarProperty Name="Student_Id" ColumnName="Student_Id" />
+                <ScalarProperty Name="Student_name" ColumnName="Student_name" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MyHistory">
+            <EntityTypeMapping TypeName="Model.MyHistory">
+              <MappingFragment StoreEntitySet="MyHistory">
+                <ScalarProperty Name="Mark" ColumnName="Mark" />
+                <ScalarProperty Name="TestDate" ColumnName="TestDate" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

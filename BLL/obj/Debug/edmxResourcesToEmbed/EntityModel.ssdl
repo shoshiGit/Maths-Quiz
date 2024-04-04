@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Multiple_Choice_A">
+    <Key>
+      <PropertyRef Name="Answer_Id" />
+    </Key>
+    <Property Name="Answer_Id" Type="int" Nullable="false" />
+    <Property Name="Answer" Type="int" />
+    <Property Name="Question_Id" Type="int" />
+    <Property Name="Percent" Type="int" />
+  </EntityType>
+  <EntityType Name="Multiple_Choice_Q">
+    <Key>
+      <PropertyRef Name="Question_Id" />
+    </Key>
+    <Property Name="Question_Id" Type="int" Nullable="false" />
+    <Property Name="Question" Type="varchar" MaxLength="50" />
+    <Property Name="Correct_Ans" Type="int" />
+    <Property Name="Percent" Type="int" />
+  </EntityType>
+  <EntityType Name="MyHistory">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="TestDate" Type="datetime" />
+    <Property Name="Mark" Type="int" />
+  </EntityType>
+  <EntityType Name="Question&amp;Ans1">
+    <Key>
+      <PropertyRef Name="Question_Id" />
+    </Key>
+    <Property Name="Question_Id" Type="int" Nullable="false" />
+    <Property Name="Question" Type="varchar" MaxLength="50" />
+    <Property Name="Answer" Type="int" />
+    <Property Name="Percentage" Type="int" />
+  </EntityType>
+  <EntityType Name="Students">
+    <Key>
+      <PropertyRef Name="Student_Id" />
+    </Key>
+    <Property Name="Student_Id" Type="int" Nullable="false" />
+    <Property Name="Student_name" Type="varchar" MaxLength="50" />
+    <Property Name="Password" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_Answers_Tbl_Multiple_Choice_Q">
+    <End Role="Multiple_Choice_Q" Type="Self.Multiple_Choice_Q" Multiplicity="0..1" />
+    <End Role="Multiple_Choice_A" Type="Self.Multiple_Choice_A" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Multiple_Choice_Q">
+        <PropertyRef Name="Question_Id" />
+      </Principal>
+      <Dependent Role="Multiple_Choice_A">
+        <PropertyRef Name="Question_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ModelStoreContainer">
+    <EntitySet Name="Multiple_Choice_A" EntityType="Self.Multiple_Choice_A" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Multiple_Choice_Q" EntityType="Self.Multiple_Choice_Q" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MyHistory" EntityType="Self.MyHistory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Question&amp;Ans1" EntityType="Self.Question&amp;Ans1" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Students" EntityType="Self.Students" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Answers_Tbl_Multiple_Choice_Q" Association="Self.FK_Answers_Tbl_Multiple_Choice_Q">
+      <End Role="Multiple_Choice_Q" EntitySet="Multiple_Choice_Q" />
+      <End Role="Multiple_Choice_A" EntitySet="Multiple_Choice_A" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
